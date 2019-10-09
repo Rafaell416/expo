@@ -1,4 +1,5 @@
-import { EventEmitter, Subscription } from '@unimodules/core';
+import { EventEmitter, Subscription, Platform } from '@unimodules/core';
+import Constants from 'expo-constants';
 
 import {
   BatteryLevelEvent,
@@ -14,7 +15,9 @@ import ExpoBattery from './ExpoBattery';
 
 const BatteryEventEmitter = new EventEmitter(ExpoBattery);
 
-export const isSupported = ExpoBattery.isSupported;
+const isSimulator = Constants.isDevice;
+
+export const isSupported = isSimulator && Platform.OS === 'web';
 
 export async function getBatteryLevelAsync(): Promise<number> {
   if (!ExpoBattery.getBatteryLevelAsync) {
